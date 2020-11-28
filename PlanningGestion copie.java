@@ -38,7 +38,7 @@ public class PlanningGestion implements Initializable{
 	
 
 
-	Format formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+	Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	 String DateAujourdhuiString = formatter.format(aujourdhui);
 	    //On met la date sous String avec le format désiré pour l affiche avec un setText
 	
@@ -94,11 +94,11 @@ public void initialize(URL arg0, ResourceBundle arg1) {//sert a initaliser la pa
 	
 	Connection con=ConnectionBdFero.connect();
 	
-	 ResultSet rs= con.createStatement().executeQuery(" SELECT * FROM train , gare , ligne WHERE ligne.gare_dep = gare.idgare AND date_dep <='"+aujourdhui+"' AND place_Dispo >'0' "
-				+ " ORDER BY date_dep "); //probleme avec le signe pour la date //pour tout sauf ville destination
+	 ResultSet rs= con.createStatement().executeQuery(" SELECT * FROM train , gare,ligne Where ligne.idtrain=train.idtrain AND ligne.gare_dep = gare.idgare AND date_dep >='"+DateAujourdhuiString+"' AND place_Dispo >'0' "
+				+ " ORDER BY date_dep "); //Resolu
 	 
-	ResultSet rs2= con.createStatement().executeQuery(" SELECT * FROM train , gare , ligne WHERE ligne.gare_arr = gare.idgare AND  date_dep <='"+aujourdhui+"' AND place_Dispo >'0'"
-			+ " ORDER BY date_dep "); //probleme avec le signe pour la date //pour la ville destination
+	ResultSet rs2= con.createStatement().executeQuery("SELECT * FROM train , gare,ligne Where ligne.idtrain=train.idtrain AND ligne.gare_arr = gare.idgare AND  date_dep >='"+DateAujourdhuiString+"' AND place_Dispo >'0'"
+			+ " ORDER BY date_dep "); //Resolu
 	 
 	while(rs.next()&&rs2.next()){//boucle tant que des données existe on rentre les données
 		
